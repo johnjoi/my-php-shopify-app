@@ -302,3 +302,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    .search-form input[type="search"] { min-width: 80px; }
    .logo { font-size: 1.1rem; }
 }
+
+//-------------------------------
+
+.btn-apply-sidebar {
+  display: none !important;
+}
