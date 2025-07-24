@@ -993,7 +993,7 @@
                     
                 </ul>
                  <div class="all-jobs-link-container">
-                     <a href="job/index.html" class="cta-button" id="view-all-jobs-btn">View All Jobs</a>
+                     <a href="job" class="cta-button" id="view-all-jobs-btn">View All Jobs</a>
                  </div>
             </div>
         </section>
@@ -1003,7 +1003,7 @@
             <div class="container">
                 <h2>Can't find what you're looking for?</h2>
                 <p>Discover more opportunities among all (Remote/Flexible/Virtual/Online/At-Home) job postings</p>
-                <a href="job/index.html" class="cta-button">Browse All Jobs</a>
+                <a href="job" class="cta-button">Browse All Jobs</a>
             </div>
         </section>
 
