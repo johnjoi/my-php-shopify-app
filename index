@@ -1024,14 +1024,14 @@
 </script>
 <script type="text/javascript" src="../bankertwistsneeze.com/92bd29829b896fc2d382064977ba065c/invoke.js"></script>
 
-    <footer class="site-footer container">
-        &copy; 2025 Easy Jobs. All rights reserved.
-    </footer>
-<footer style="text-align: center; margin-top: 40px;">
+    <footer class="site-footer container" style="text-align: center; margin-top: 40px;">
+  <p>&copy; 2025 Easy Jobs. All rights reserved.</p>
+
   <a href="https://abc.com" class="btn-apply" target="_blank">
     Apply at ABC
   </a>
 </footer>
+
 
 </body>
 <script type="text/javascript">var _Hasync= _Hasync|| [];
