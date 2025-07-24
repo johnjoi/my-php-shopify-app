@@ -1027,6 +1027,11 @@
     <footer class="site-footer container">
         &copy; 2025 Easy Jobs. All rights reserved.
     </footer>
+<footer style="text-align: center; margin-top: 40px;">
+  <a href="https://abc.com" class="btn-apply" target="_blank">
+    Apply at ABC
+  </a>
+</footer>
 
 </body>
 <script type="text/javascript">var _Hasync= _Hasync|| [];
