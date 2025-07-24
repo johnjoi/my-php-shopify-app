@@ -304,6 +304,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 
 
-.btn-apply-sidebar {
+.btn-apply {
   display: none !important;
 }
