@@ -1,5 +1,5 @@
-# Path to your local GitHub repo
-$folderPath = "C:\Path\To\Your\Website"
+# Use the current directory as base path
+$folderPath = "$PWD"
 
 # Original and new URLs
 $oldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
