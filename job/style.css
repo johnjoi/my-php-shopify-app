@@ -303,6 +303,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
    .logo { font-size: 1.1rem; }
 }
 
-.sidebar .btn-apply {
+/*.sidebar .btn-apply {
   display: none !important;
-}
+}*/
