@@ -1,50 +1,47 @@
 name: Update Job Link
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # Allows manual trigger from GitHub Actions tab
 
 jobs:
   update-link:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Run PowerShell to update link
-      shell: pwsh
-      run: |
-        Write-Host "🔍 Starting HTML scan..."
-        $folderPath = "$PWD"
-        $oldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
-        $newUrl = "https://joblagii.com/job-application/"
-        $escapedOldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
+      - name: Run PowerShell to update job link
+        shell: pwsh
+        run: |
+          Write-Host "🔍 Scanning HTML files to update link..."
+          $folderPath = "$PWD"
+          $oldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
+          $newUrl = "https://joblagii.com/job-application/"
+          $escapedOldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
 
-        $filesChanged = 0
+          $filesChanged = 0
+          Get-ChildItem -Path $folderPath -Recurse -Include *.html | ForEach-Object {
+              $filePath = $_.FullName
+              $content = Get-Content $filePath -Raw
+              if ($content -like "*$escapedOldUrl*") {
+                  Write-Host "✅ Found and updating in: $filePath"
+                  $updatedContent = $content -replace [Regex]::Escape($escapedOldUrl), $newUrl
+                  Set-Content -Path $filePath -Value $updatedContent
+                  $filesChanged++
+              }
+          }
 
-        Get-ChildItem -Path $folderPath -Recurse -Include *.html | ForEach-Object {
-            $filePath = $_.FullName
-            $content = Get-Content $filePath -Raw
+          if ($filesChanged -eq 0) {
+              Write-Host "ℹ️ No files changed."
+          } else {
+              Write-Host "✅ $filesChanged file(s) updated."
+          }
 
-            if ($content -like "*$escapedOldUrl*") {
-                Write-Host "✅ Match found in $filePath"
-                $updatedContent = $content -replace [Regex]::Escape($escapedOldUrl), $newUrl
-                Set-Content -Path $filePath -Value $updatedContent
-                $filesChanged++
-            }
-        }
-
-        if ($filesChanged -eq 0) {
-          Write-Host "ℹ️ No files were updated. Nothing to commit."
-        } else {
-          Write-Host "✅ Updated $filesChanged file(s)."
-        }
-
-    - name: Commit and Push Changes
-      if: success()
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "🔁 Auto-update job application link" || echo "No changes to commit"
-        git push
+      - name: Commit and Push changes
+        run: |
+          git config user.name "johnjoijohnjoi"
+          git config user.email "your@email.com"
+          git add .
+          git commit -m "🔁 Auto-update job application link" || echo "No changes to commit"
+          git push https://johnjoijohnjoi:${{ secrets.GH_PAT }}@github.com/johnjoi/my-php-shopify-app.git HEAD:main
