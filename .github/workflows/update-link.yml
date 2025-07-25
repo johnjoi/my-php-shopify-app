@@ -1,39 +1,47 @@
 name: Update Job Link
 
 on:
-  workflow_dispatch:  # Allows you to run it manually from GitHub UI
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   update-link:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Run PowerShell script
+    - name: Run PowerShell to update link
       shell: pwsh
       run: |
+        Write-Host "🔍 Starting HTML scan..."
         $folderPath = "$PWD"
         $oldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
         $newUrl = "https://joblagii.com/job-application/"
         $escapedOldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
+
+        $filesChanged = 0
 
         Get-ChildItem -Path $folderPath -Recurse -Include *.html | ForEach-Object {
             $filePath = $_.FullName
             $content = Get-Content $filePath -Raw
 
             if ($content -like "*$escapedOldUrl*") {
+                Write-Host "✅ Match found in $filePath"
                 $updatedContent = $content -replace [Regex]::Escape($escapedOldUrl), $newUrl
                 Set-Content -Path $filePath -Value $updatedContent
-                Write-Host "✅ Updated URL in:" $filePath
-            }
-            else {
-                Write-Host "⏭️ No match in:" $filePath
+                $filesChanged++
             }
         }
 
-    - name: Commit and Push changes
+        if ($filesChanged -eq 0) {
+          Write-Host "ℹ️ No files were updated. Nothing to commit."
+        } else {
+          Write-Host "✅ Updated $filesChanged file(s)."
+        }
+
+    - name: Commit and Push Changes
+      if: success()
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
