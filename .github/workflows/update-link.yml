@@ -1,0 +1,42 @@
+name: Update Job Link
+
+on:
+  workflow_dispatch:  # Allows you to run it manually from GitHub UI
+
+jobs:
+  update-link:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Run PowerShell script
+      shell: pwsh
+      run: |
+        $folderPath = "$PWD"
+        $oldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
+        $newUrl = "https://joblagii.com/job-application/"
+        $escapedOldUrl = "https://go4affm.com/c/?p=29992&amp;o=22101"
+
+        Get-ChildItem -Path $folderPath -Recurse -Include *.html | ForEach-Object {
+            $filePath = $_.FullName
+            $content = Get-Content $filePath -Raw
+
+            if ($content -like "*$escapedOldUrl*") {
+                $updatedContent = $content -replace [Regex]::Escape($escapedOldUrl), $newUrl
+                Set-Content -Path $filePath -Value $updatedContent
+                Write-Host "✅ Updated URL in:" $filePath
+            }
+            else {
+                Write-Host "⏭️ No match in:" $filePath
+            }
+        }
+
+    - name: Commit and Push changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "🔁 Auto-update job application link" || echo "No changes to commit"
+        git push
